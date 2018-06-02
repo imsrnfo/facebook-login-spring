@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<!-- Facebook necesita que la pagina corra sobre HTTPS -->
+<div class="fb-login-button" data-max-rows="1" data-size="large" data-button-type="continue_with" data-use-continue-as="true" onlogin="checkLoginState();"></div>
+
+<form id="form" th:action="@{/login}" method="post">
+    <input style="display: none" type="text" id="username"  name="username"/>
+    <input style="display: none" type="password" id="password" name="password"/>
+    <input style="display: none" type="text" id="token" name="token"/>
+</form>
+
+<span style="display: none" id="facebook-app-id" th:value="${comercio.facebookAplicationId}"></span>
+
+<script src="https://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60=" crossorigin="anonymous"></script>
+<script>
+    var facebookappid = $("#facebook-app-id").attr("value");
+    (function (d, s, id) {
+        var js, fjs = d.getElementsByTagName(s)[0];
+        if (d.getElementById(id)) {
+            return;
+        }
+        js = d.createElement(s);
+        js.id = id;
+        js.src = "https://connect.facebook.net/en_US/sdk.js";
+        fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));
+    window.fbAsyncInit = function () {
+        FB.init({
+            appId: facebookappid,
+            xfbml: true,
+            cookie: false,
+            version: 'v2.12'
+        });
+    };
+    function checkLoginState(){
+        FB.getLoginStatus(function(response) {
+            if (response.status === 'connected') {
+                var token_access = response.authResponse.accessToken;
+                var user_id = response.authResponse.userID;
+                $("#username").val(user_id);
+                $("#password").val(user_id);
+                $("#token").val(token_access);
+                $("#form").submit();
+            } else if (response.status === 'not_authorized') {
+                alert("Error de permisos al iniciar session");
+            } else {
+                alert("Error desconocido");
+            }
+        });
+    }
+</script>
+</body>
+</html>
