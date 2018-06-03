@@ -2,7 +2,6 @@ package com.igmasiri.facebooklogin.configuration.security;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.User;
-
 import java.util.Collection;
 
 public class UsuarioSession extends User {

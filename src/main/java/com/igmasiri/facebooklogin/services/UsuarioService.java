@@ -9,7 +9,6 @@ import com.igmasiri.facebooklogin.repositories.UsuarioRepository;
 import com.igmasiri.facebooklogin.utils.HTTPUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import java.util.Map;
 
 @Service
